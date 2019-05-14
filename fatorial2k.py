@@ -1,7 +1,26 @@
-#!/usr/bin/env python
+#!/ur/bin/env python
+# -*- coding: utf-8 -*-
+
+from itertools import combinations
 
 def intToBinary(maxValue,size):
     ans = [int(d) for d in str(bin(maxValue)[2:].zfill(size))]
+    return ans
+
+# realiza as combinacoes 
+# INPUT array[x1, x2, ..., xk], tal que k = número de fatores
+# utiliza a funcao combinations da itertools pra realizar todas
+# as combinacoes de tamanho maxSize
+def combine(k,maxSize):
+    vetor = [i for i in range(k)]
+    return combinations(vetor,maxSize)
+
+# realiza todas as combinacoes de 2 a 2 até k a k
+def combinacoes(k):
+    ans=[]
+    for i in range(2,k+1):
+        ans.append(combine(k,i))
+
     return ans
 
 def fatorial2k(k,y):
@@ -9,6 +28,16 @@ def fatorial2k(k,y):
     #combinacoes = [1,4,11]
 
     print "k: ", k, "\ty: ", y
+    print "\n"
+    print "fatores: "
+    for i in range(k):
+        print i, "\t",
+
+    combinado = combinacoes(k)
+    for lista in combinado:
+        for tupla in list(lista):
+            print tupla, "\t", 
+    print "\n",
 
     ## add linhas
     for i in range(2**k):
@@ -19,38 +48,20 @@ def fatorial2k(k,y):
         for j in range(len(fatores)):
             linha.append(fatores[j])
        
-        valor = 1
-        ## 2 a 2
-        for comb_i in range(k):
-            for comb_j in range(comb_i+1,k):
-                valor *= fatores[comb_i] * fatores[comb_j]
+        combinado = combinacoes(k)
+        for lista in combinado:
+            for tupla in list(lista):
+                valor = 1
+                for elem in tupla:
+                    valor *= linha[elem]
                 linha.append(valor)
-            valor = 1
-
-        ## 3 a 3
-        for comb_i in range(k):
-            for comb_j in range(comb_i+1,k):
-                for comb_k in range(comb_j+1,k):
-                    valor *= fatores[comb_i] * fatores[comb_j] * fatores[comb_k]
-                    linha.append(valor)
-                valor = 1
-            valor = 1
-
-        ## 4 a 4
-        for comb_i in range(k):
-            for comb_j in range(comb_i+1,k):
-                for comb_k in range(comb_j+1,k):
-                    for comb_z in range(comb_k+1,k):
-                        valor *= fatores[comb_i] * fatores[comb_j] * fatores[comb_k] * fatores[comb_z]
-                        linha.append(valor)
-                    valor = 1
-                valor = 1
-            valor = 1
 
         ## add y[i]
         linha.append(y[i])
-        print linha
-    
+        for elem in linha:
+            print elem, "\t",
+        print "\n",
+
     matrix.append(linha)
             
     
