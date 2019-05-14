@@ -1,5 +1,7 @@
 #!/ur/bin/env python
 # -*- coding: utf-8 -*-
+# @author: Diogo 'dsm' Soares
+#
 
 from itertools import combinations
 
@@ -23,13 +25,12 @@ def combinacoes(k):
 
     return ans
 
-def fatorial2k(k,y):
+def createStructureFatorial2k(k,y):
     matrix = []
-    #combinacoes = [1,4,11]
 
-    print "k: ", k, "\ty: ", y
-    print "\n"
-    print "fatores: "
+    print "Num. fatores: ", k, "\tVetor Y: ", y
+    print "\n",
+    print "Fatores: "
     for i in range(k):
         print i, "\t",
 
@@ -48,6 +49,11 @@ def fatorial2k(k,y):
         for j in range(len(fatores)):
             linha.append(fatores[j])
        
+        ## add as combinacoes possiveis
+        ## utiliza os indices para multiplicar os valores de cada
+        ## fator individualmente
+        ## linha[Fator_i] * linha[Fator_j] * linha[Fator_k] * ... * linha[Fator_z]
+        ## tal que z é o tamanho máximo de cada tupla da combinacao
         combinado = combinacoes(k)
         for lista in combinado:
             for tupla in list(lista):
@@ -61,10 +67,12 @@ def fatorial2k(k,y):
         for elem in linha:
             print elem, "\t",
         print "\n",
-
+    
     matrix.append(linha)
             
-    
+def fatorial2k(k, y):
+    createStructureFatorial2k(k, y)
+
 if __name__ == "__main__":
     linha = input()
     k=int(linha)
@@ -75,4 +83,4 @@ if __name__ == "__main__":
     for i in xrange(0,len(linha)):
         y.append(int(linha[i]))
 
-    fatorial2k(k,y)
+    fatorial2k(k, y)
