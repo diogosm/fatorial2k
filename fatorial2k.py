@@ -28,18 +28,6 @@ def combinacoes(k):
 def createStructureFatorial2k(k,y):
     matrix = []
 
-    print "Num. fatores: ", k, "\tVetor Y: ", y
-    print "\n",
-    print "Fatores: "
-    for i in range(k):
-        print i, "\t",
-
-    combinado = combinacoes(k)
-    for lista in combinado:
-        for tupla in list(lista):
-            print tupla, "\t", 
-    print "\n",
-
     ## add linhas
     for i in range(2**k):
         linha=[]
@@ -61,17 +49,42 @@ def createStructureFatorial2k(k,y):
                 for elem in tupla:
                     valor *= linha[elem]
                 linha.append(valor)
-
+        
         ## add y[i]
         linha.append(y[i])
+        matrix.append(linha)
+
+    printMatrix(k,y,matrix)
+
+    return matrix
+            
+def fatorial2k(k,y):
+    matrix = createStructureFatorial2k(k, y)
+
+    q = []
+    numColunas = len(matrix[0])
+
+    #for i in range(
+
+def printMatrix(k,y,matrix):
+    print "Num. fatores: ", k, "\tVetor Y: ", y
+    print "\n",
+    print "Fatores: "
+    for i in range(k):
+        print i, "\t",
+
+    combinado = combinacoes(k)
+    for lista in combinado:
+        for tupla in list(lista):
+            print tupla, "\t", 
+    print "Y\n",
+
+    for linha in matrix:
         for elem in linha:
             print elem, "\t",
         print "\n",
-    
-    matrix.append(linha)
-            
-def fatorial2k(k, y):
-    createStructureFatorial2k(k, y)
+    print ""
+
 
 if __name__ == "__main__":
     linha = input()
