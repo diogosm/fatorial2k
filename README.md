@@ -14,6 +14,8 @@ Things to pay attention:
 
 # Referências
 
-[1](http://leg.ufpr.br/~fernandomayer/aulas/ce074/fatorial_2-3.html)
-[2](https://edisciplinas.usp.br/pluginfile.php/2100277/mod_resource/content/1/fatoriais%202ak%20fracionados%20II.pdf)
-[3](https://www.stat.washington.edu/pds/stat502/LectureNotes/2k.factorial.intro.pdf)
+[[1]](http://leg.ufpr.br/~fernandomayer/aulas/ce074/fatorial_2-3.html)
+
+[[2]](https://edisciplinas.usp.br/pluginfile.php/2100277/mod_resource/content/1/fatoriais%202ak%20fracionados%20II.pdf)
+
+[[3]](https://www.stat.washington.edu/pds/stat502/LectureNotes/2k.factorial.intro.pdf)
