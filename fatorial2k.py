@@ -4,6 +4,8 @@
 #
 
 from itertools import combinations
+from string import ascii_uppercase
+from sys import stdout
 
 def intToBinary(maxValue,size):
     ans = [int(d) for d in str(bin(maxValue)[2:].zfill(size))]
@@ -24,6 +26,44 @@ def combinacoes(k):
         ans.append(combine(k,i))
 
     return ans
+
+# ordena confome a ordem do anova
+# que eh pelo ultimo fator de tras pra frente
+# a partir do ultimo fator
+def anovaOrder(a,b):
+    aux_k = k-1 ## num de fatores
+    while(aux_k>0):
+        if(a[aux_k] != b[aux_k]):
+            return a[aux_k]-b[aux_k]
+            break
+        aux_k = aux_k-1
+    return a[0]-b[0]
+
+def criaCabecalho():
+    cabecalho = []
+    
+    for i in range(k):
+        lista = []
+        lista.append(i)
+        cabecalho.append(lista)
+    for lista in combinacoes(k):
+        for tupla in list(lista):
+            cabecalho.append(list(tupla))
+            
+    return cabecalho
+
+def SST(q):
+    yTraco = 0
+    sstTotal = 0
+
+    for i in range(2**k):
+        yTraco += y[i]
+    yTraco /= 2**k
+
+    for i in range(2**k):    
+        sstTotal += (y[i]-yTraco)**2
+    
+    return sstTotal    
 
 def createStructureFatorial2k(k,y):
     matrix = []
@@ -54,17 +94,45 @@ def createStructureFatorial2k(k,y):
         linha.append(y[i])
         matrix.append(linha)
 
+    ## orderna no estilo da ANOVA
+    matrix.sort(anovaOrder)
+    ## gambi pra pegar o y na ordem original da entrada
+    for i in range(2**k):
+        matrix[i][len(matrix[0])-1] = y[i]
+
     printMatrix(k,y,matrix)
 
     return matrix
             
 def fatorial2k(k,y):
     matrix = createStructureFatorial2k(k, y)
-
+    cabecalho = criaCabecalho()
     q = []
-    numColunas = len(matrix[0])
+    porcaoVariacao = []
+    valor = 0
+    
+    ## calc q[0]
+    for i in range(2**k):
+        valor += matrix[i][len(matrix[0])-1]
+    q.append(valor)
+    
+    for j in range(len(matrix[0])-1):
+        valor = 0
+        for i in range(2**k):
+            valor += matrix[i][len(matrix[0])-1] * matrix[i][j]
+        q.append(valor)
 
-    #for i in range(
+    for i in range(len(q)):
+        q[i] = q[i]/2**k
+
+    ## calc SST
+    sst = SST(q)
+    
+    ## calc porcaoVariacao
+    for i in range(1,len(q)):
+        porcaoVariacao.append(q[i]**2 * 2**k)
+
+    return sst, porcaoVariacao, cabecalho    
 
 def printMatrix(k,y,matrix):
     print "Num. fatores: ", k, "\tVetor Y: ", y
@@ -85,6 +153,16 @@ def printMatrix(k,y,matrix):
         print "\n",
     print ""
 
+def printVariacao(sst, porcaoVariacao, cabecalho):
+    fatores = list(ascii_uppercase)
+    iterador = 0
+    
+    print "Porcao de variacao (%):\n"
+    for fator in cabecalho:
+        for pos in fator:
+            stdout.write(fatores[pos])
+        print " = ", "%.2f" % (100.0*(1.0*porcaoVariacao[iterador]/sst))
+        iterador += 1
 
 if __name__ == "__main__":
     linha = input()
@@ -96,4 +174,6 @@ if __name__ == "__main__":
     for i in xrange(0,len(linha)):
         y.append(int(linha[i]))
 
-    fatorial2k(k, y)
+    sst, porcaoVariacao, cabecalho = fatorial2k(k, y)
+    
+    printVariacao(sst, porcaoVariacao, cabecalho)
