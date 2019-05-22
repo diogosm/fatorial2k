@@ -138,13 +138,16 @@ def printMatrix(k,y,matrix):
     print "Num. fatores: ", k, "\tVetor Y: ", y
     print "\n",
     print "Fatores: "
+    fatores = list(ascii_uppercase)
     for i in range(k):
-        print i, "\t",
+        print fatores[i], "\t",
 
     combinado = combinacoes(k)
     for lista in combinado:
         for tupla in list(lista):
-            print tupla, "\t", 
+            for elem in tupla:
+                stdout.write(fatores[elem])
+            print "\t", 
     print "Y\n",
 
     for linha in matrix:
@@ -172,8 +175,9 @@ if __name__ == "__main__":
     linha = raw_input().split()
     
     for i in xrange(0,len(linha)):
-        y.append(int(linha[i]))
+        y.append(float(linha[i]))
 
     sst, porcaoVariacao, cabecalho = fatorial2k(k, y)
     
     printVariacao(sst, porcaoVariacao, cabecalho)
+
