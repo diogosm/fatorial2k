@@ -4,14 +4,21 @@ Obs.: some fun with factorial 2k design of experiments using Python. That's an o
 
 Things to pay attention:
 
-- This code works only with unique result for each combination of factors, i.e., when Y[F] | F={x1, ..., xk} = {y1}.
-- The ordering factor values are not the same as how it prevais in old literure
+- This code works as follows: put k={number of factors} in the first line and in the following 2^k put the results of your experiments. Pay attention that these lines need to have the same amount of experiments. Ex. for two factors A and B and 3 measures:
 
-## @TODO things
+```
+2
+28 25 27
+36 32 32
+18 19 23
+31 30 29
+```
 
-- [ ] SST calculation
-- [ ] support for any size of Y[F]
+# Running
 
+```
+python fatorial2k.py < input.in
+```
 # Referências
 
 [[1]](http://leg.ufpr.br/~fernandomayer/aulas/ce074/fatorial_2-3.html)
