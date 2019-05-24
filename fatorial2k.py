@@ -104,7 +104,7 @@ def createStructureFatorial2k(k,y):
 
     return matrix
             
-def fatorial2k(k,y):
+def fatorial2k(k,y,erros):
     matrix = createStructureFatorial2k(k, y)
     cabecalho = criaCabecalho()
     q = []
@@ -131,8 +131,16 @@ def fatorial2k(k,y):
     ## calc porcaoVariacao
     for i in range(1,len(q)):
         porcaoVariacao.append(q[i]**2 * 2**k)
+        
+    ## calc erro do experimento
+    sse = 0.0
+    for i in range(len(erros)):
+        for j in range(len(erros[j])):
+            erros[i][j] -= y[i]
+            sse += erros[i][j]**2
+    sst += sse  ## add erro para sst
 
-    return sst, porcaoVariacao, cabecalho    
+    return sst, porcaoVariacao, cabecalho, sse
 
 def printMatrix(k,y,matrix):
     print "Num. fatores: ", k, "\tVetor Y: ", y
@@ -156,28 +164,39 @@ def printMatrix(k,y,matrix):
         print "\n",
     print ""
 
-def printVariacao(sst, porcaoVariacao, cabecalho):
+def printVariacao(sst, porcaoVariacao, cabecalho, sse):
     fatores = list(ascii_uppercase)
     iterador = 0
     
-    print "Porcao de variacao (%):\n"
+    print "Porcao de variacao, incluindo variacao do erro (SSE) (%):\n"
     for fator in cabecalho:
         for pos in fator:
             stdout.write(fatores[pos])
         print " = ", "%.2f" % (100.0*(1.0*porcaoVariacao[iterador]/sst))
         iterador += 1
+    
+    ## sse variacao
+    print "SSE = ", "%.2f" % (sse/sst)
 
 if __name__ == "__main__":
     linha = input()
     k=int(linha)
     y=[]
-
-    linha = raw_input().split()
+    erros=[]
     
-    for i in xrange(0,len(linha)):
-        y.append(float(linha[i]))
+    for i in range(2**k):
+        linha = raw_input().split()
+        errosAux = []
+        media = 0
+        for i in xrange(0,len(linha)):
+            medida = float(linha[i])
+            errosAux.append(medida)
+            media += medida
+        media /= 1.*len(linha)
+        y.append(media)
+        erros.append(errosAux)
 
-    sst, porcaoVariacao, cabecalho = fatorial2k(k, y)
+    sst, porcaoVariacao, cabecalho, sse = fatorial2k(k, y, erros)
     
-    printVariacao(sst, porcaoVariacao, cabecalho)
+    printVariacao(sst, porcaoVariacao, cabecalho, sse)
 
