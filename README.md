@@ -4,7 +4,7 @@ Obs.: some fun with factorial 2k design of experiments using Python. That's an o
 
 Things to pay attention:
 
-- This code works as follows: put k={number of factors} in the first line and in the following 2^k put the results of your experiments. Pay attention that these lines need to have the same amount of experiments. Ex. for two factors A and B and 3 measures:
+- This code works as follows: put `k={number of factors}` in the first line and in the following `2^k` put the results of your experiments. Pay attention that these lines need to have the same amount of experiments. Ex. for two factors A and B and 3 measures:
 
 ```
 2
